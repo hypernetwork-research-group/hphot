@@ -190,7 +190,8 @@ def load_and_prepare_data(
         num_workers=num_workers,
         pin_memory=True,
         drop_last=True,
-        collate_fn=collate_fn
+        collate_fn=collate_fn,
+        persistent_workers=True
     )
 
     val_loader = DataLoader(
@@ -200,7 +201,8 @@ def load_and_prepare_data(
         num_workers=num_workers,
         pin_memory=True,
         drop_last=True,
-        collate_fn=collate_fn
+        collate_fn=collate_fn,
+        persistent_workers=True
     )
 
     test_loader = DataLoader(
@@ -210,7 +212,8 @@ def load_and_prepare_data(
         num_workers=num_workers,
         pin_memory=True,
         drop_last=True,
-        collate_fn=collate_fn
+        collate_fn=collate_fn,
+        persistent_workers=True
     )
 
     return train_loader, val_loader, test_loader, dataset.num_features

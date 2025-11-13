@@ -4,6 +4,8 @@ from src.utils import load_and_prepare_data
 import torch
 import os
 import time
+import warnings
+warnings.filterwarnings("ignore", ".*Trying to infer the `batch_size`.*")
 
 torch.backends.cudnn.benchmark = True
 def main():

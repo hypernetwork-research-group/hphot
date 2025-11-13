@@ -2,27 +2,24 @@
 
 # chmod +x run.sh
 
-EPOCHS=1
-BATCH_SIZE=128
-NUM_WORKERS=8
+EPOCHS=300
+BATCH_SIZE=1024
+NUM_WORKERS=24
 
-DATASETS=("PATENT" "IMDB" "COURSERA" "ARXIV") # "PATENT" "IMDB" "COURSERA" "ARXIV"
-MODES=("nodes") #"hnhn" "villain" "baseline" "nodes" "node_semantic_node_structure" "node_edges" "full"
+DATASETS=("COURSERA" "PATENT" "IMDB" "ARXIV") # "PATENT" "IMDB" "COURSERA" "ARXIV"
+# DATASETS=("PATENT" "ARXIV") # "PATENT" "IMDB" "COURSERA" "ARXIV"
+MODES=("baseline" "nodes" "node_semantic_node_structure" "node_edges" "full")
 n=10
 for ((i = 0; i < n; i++)); do 
   for dataset in "${DATASETS[@]}"; do
-    if dataset == "IMDB"; then
-      BATCH_SIZE=512
-      NUM_WORKERS=8
-    elif dataset == "PATENT"; then
+    if [[ $dataset == "IMDB" ]]; then
+      BATCH_SIZE=1024
+    elif [[ $dataset == "PATENT" ]]; then
       BATCH_SIZE=128
-      NUM_WORKERS=8
-    elif dataset == "COURSERA"; then
+    elif [[ $dataset == "COURSERA" ]]; then
       BATCH_SIZE=128
-      NUM_WORKERS=8
-    elif dataset == "ARXIV"; then
-      BATCH_SIZE=256
-      NUM_WORKERS=8
+    elif [[ $dataset == "ARXIV" ]]; then
+      BATCH_SIZE=1024
     fi
     for mode in "${MODES[@]}"; do
       echo "======== Running: $dataset - $mode ========"

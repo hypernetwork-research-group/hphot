@@ -1,4 +1,4 @@
-torch==2.7.0
+torch==2.8.0
 torch-geometric==2.6.1
 gdown==5.2.0
 matplotlib==3.10.3
@@ -12,5 +12,3 @@ scikit-learn
 lightning
 openai
 dotenv
-dhg
-pip install torch-scatter -f https://data.pyg.org/whl/torch-2.8.0+cu126.html

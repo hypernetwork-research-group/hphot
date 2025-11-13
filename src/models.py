@@ -5,8 +5,8 @@ from .utils import sensivity_specificity_cutoff, alpha_beta_negative_sampling
 from pytorch_lightning import LightningModule
 from torchmetrics.aggregation import RunningMean
 from torch_geometric.nn import MinAggregation
-from dhg.models import HNHN as DHG_HNHN, HyperGCN as HyGCN, HGNNP
-from dhg import Hypergraph
+# from dhg.models import HNHN as DHG_HNHN, HyperGCN as HyGCN, HGNNP
+# from dhg import Hypergraph
 
 class MLP(nn.Module):
     def __init__(self, in_channels, hidden_channels, out_channels):
@@ -32,101 +32,101 @@ class MLP(nn.Module):
 
         return x
 
-class HNHN(nn.Module):
-    def __init__(self, in_channels, hidden_channels, out_channels):
-        super().__init__()
-        self.encoder = DHG_HNHN(in_channels, hidden_channels, num_classes=hidden_channels, use_bn=True)
-        self.aggr = MinAggregation()
-        self.score_fn = nn.Sequential(
-            nn.Linear(hidden_channels, hidden_channels // 2),
-            nn.ReLU(),
-            nn.Linear(hidden_channels // 2, out_channels),
-        )
+# class HNHN(nn.Module):
+#     def __init__(self, in_channels, hidden_channels, out_channels):
+#         super().__init__()
+#         self.encoder = DHG_HNHN(in_channels, hidden_channels, num_classes=hidden_channels, use_bn=True)
+#         self.aggr = MinAggregation()
+#         self.score_fn = nn.Sequential(
+#             nn.Linear(hidden_channels, hidden_channels // 2),
+#             nn.ReLU(),
+#             nn.Linear(hidden_channels // 2, out_channels),
+#         )
 
-    def forward(self, x, x_e, x_struct, edge_index):
-        node_idx, hyperedge_idx = edge_index
-        num_nodes = x.size(0)
-        num_hyperedges = int(hyperedge_idx.max().item() + 1)
+#     def forward(self, x, x_e, x_struct, edge_index):
+#         node_idx, hyperedge_idx = edge_index
+#         num_nodes = x.size(0)
+#         num_hyperedges = int(hyperedge_idx.max().item() + 1)
 
-        e_list = [[] for _ in range(num_hyperedges)]
-        for n, e in zip(node_idx.tolist(), hyperedge_idx.tolist()):
-            e_list[e].append(n)
-        hg = Hypergraph(num_v=num_nodes, e_list=e_list)
+#         e_list = [[] for _ in range(num_hyperedges)]
+#         for n, e in zip(node_idx.tolist(), hyperedge_idx.tolist()):
+#             e_list[e].append(n)
+#         hg = Hypergraph(num_v=num_nodes, e_list=e_list)
         
-        node_emb = self.encoder(x, hg)
+#         node_emb = self.encoder(x, hg)
 
-        x = self.aggr(node_emb[node_idx], hyperedge_idx)
-        x = self.score_fn(x)
+#         x = self.aggr(node_emb[node_idx], hyperedge_idx)
+#         x = self.score_fn(x)
 
-        return x
+#         return x
 
-class HyperGCN(nn.Module):
-    def __init__(self, in_channels, hidden_channels, out_channels):
-        super().__init__()
+# class HyperGCN(nn.Module):
+#     def __init__(self, in_channels, hidden_channels, out_channels):
+#         super().__init__()
 
-        self.encoder = HyGCN(
-            in_channels,
-            hidden_channels,
-            num_classes=hidden_channels,
-            use_bn=True,
-        )
+#         self.encoder = HyGCN(
+#             in_channels,
+#             hidden_channels,
+#             num_classes=hidden_channels,
+#             use_bn=True,
+#         )
 
-        self.aggr = MinAggregation()
-        self.score_fn = nn.Sequential(
-            nn.Linear(hidden_channels, hidden_channels // 2),
-            nn.ReLU(),
-            nn.Linear(hidden_channels // 2, out_channels),
-        )
+#         self.aggr = MinAggregation()
+#         self.score_fn = nn.Sequential(
+#             nn.Linear(hidden_channels, hidden_channels // 2),
+#             nn.ReLU(),
+#             nn.Linear(hidden_channels // 2, out_channels),
+#         )
 
-    def forward(self, x, x_e, x_struct, edge_index):
+#     def forward(self, x, x_e, x_struct, edge_index):
         
-        node_idx, hyperedge_idx = edge_index
-        num_nodes = x.size(0)
-        num_hyperedges = int(hyperedge_idx.max().item() + 1)
+#         node_idx, hyperedge_idx = edge_index
+#         num_nodes = x.size(0)
+#         num_hyperedges = int(hyperedge_idx.max().item() + 1)
 
-        e_list = [[] for _ in range(num_hyperedges)]
-        for n, e in zip(node_idx.tolist(), hyperedge_idx.tolist()):
-            e_list[e].append(n)
+#         e_list = [[] for _ in range(num_hyperedges)]
+#         for n, e in zip(node_idx.tolist(), hyperedge_idx.tolist()):
+#             e_list[e].append(n)
 
-        hg = Hypergraph(num_v=num_nodes, e_list=e_list)
+#         hg = Hypergraph(num_v=num_nodes, e_list=e_list)
 
-        if hasattr(self.encoder, "cached_g"):
-            self.encoder.cached_g = None
+#         if hasattr(self.encoder, "cached_g"):
+#             self.encoder.cached_g = None
 
-        node_emb = self.encoder(x, hg)
+#         node_emb = self.encoder(x, hg)
 
-        x = self.aggr(node_emb[node_idx], hyperedge_idx)
-        x = self.score_fn(x)
+#         x = self.aggr(node_emb[node_idx], hyperedge_idx)
+#         x = self.score_fn(x)
 
-        return x
+#         return x
 
-class MyHGNNP(nn.Module):
-    def __init__(self, in_channels, hidden_channels, out_channels):
-        super(MyHGNNP, self).__init__()
-        self.encoder = HGNNP(in_channels, hidden_channels, num_classes=hidden_channels, use_bn=True)
-        self.aggr = MinAggregation()
-        self.score_fn = nn.Sequential(
-            nn.Linear(hidden_channels, hidden_channels // 2),
-            nn.ReLU(),
-            nn.Linear(hidden_channels // 2, out_channels),
-        )
+# class MyHGNNP(nn.Module):
+#     def __init__(self, in_channels, hidden_channels, out_channels):
+#         super(MyHGNNP, self).__init__()
+#         self.encoder = HGNNP(in_channels, hidden_channels, num_classes=hidden_channels, use_bn=True)
+#         self.aggr = MinAggregation()
+#         self.score_fn = nn.Sequential(
+#             nn.Linear(hidden_channels, hidden_channels // 2),
+#             nn.ReLU(),
+#             nn.Linear(hidden_channels // 2, out_channels),
+#         )
 
-    def forward(self, x, x_e, x_struct, edge_index):
-        node_idx, hyperedge_idx = edge_index
-        num_nodes = x.size(0)
-        num_hyperedges = int(hyperedge_idx.max().item() + 1)
+#     def forward(self, x, x_e, x_struct, edge_index):
+#         node_idx, hyperedge_idx = edge_index
+#         num_nodes = x.size(0)
+#         num_hyperedges = int(hyperedge_idx.max().item() + 1)
 
-        e_list = [[] for _ in range(num_hyperedges)]
-        for n, e in zip(node_idx.tolist(), hyperedge_idx.tolist()):
-            e_list[e].append(n)
-        hg = Hypergraph(num_v=num_nodes, e_list=e_list)
+#         e_list = [[] for _ in range(num_hyperedges)]
+#         for n, e in zip(node_idx.tolist(), hyperedge_idx.tolist()):
+#             e_list[e].append(n)
+#         hg = Hypergraph(num_v=num_nodes, e_list=e_list)
         
-        node_emb = self.encoder(x, hg)
+#         node_emb = self.encoder(x, hg)
 
-        x = self.aggr(node_emb[node_idx], hyperedge_idx)
-        x = self.score_fn(x)
+#         x = self.aggr(node_emb[node_idx], hyperedge_idx)
+#         x = self.score_fn(x)
 
-        return x
+#         return x
 
 class LitCHLPModel(LightningModule):
     def __init__(self, model, lr=1e-4):

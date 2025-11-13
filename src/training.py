@@ -3,7 +3,7 @@ from torch.utils.data import DataLoader
 from pytorch_lightning import Trainer
 from pytorch_lightning.callbacks import EarlyStopping
 from pytorch_lightning.tuner import Tuner
-from .models import LitCHLPModel, MLP, HNHN, HyperGCN, MyHGNNP
+from .models import LitCHLPModel#, MLP, HNHN, HyperGCN, MyHGNNP
 import torch
 from pytorch_lightning.loggers import TensorBoardLogger
 from .complete_models import *

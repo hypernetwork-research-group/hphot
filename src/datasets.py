@@ -166,7 +166,7 @@ class CHLPBaseDataset(InMemoryDataset, ABC):
 
 class ARXIVHypergraphDataset(CHLPBaseDataset):
     
-    GDRIVE_ID = "6q0TarVsnFi3wCchLvvc9iNe8kILwhX6"
+    GDRIVE_ID = "1pXRgFzVKIC-WtSslapAEPf9KlerTFhnd"
     DATASET_NAME = "ARXIV"
 
 class COURSERAHypergraphDataset(CHLPBaseDataset):
