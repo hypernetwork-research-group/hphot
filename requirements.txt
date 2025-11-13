@@ -12,4 +12,5 @@ scikit-learn
 lightning
 openai
 dotenv
-dgl
+dhg
+pip install torch-scatter -f https://data.pyg.org/whl/torch-2.8.0+cu126.html

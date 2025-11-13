@@ -145,9 +145,7 @@ class LitCHLPModel(LightningModule):
         h = alpha_beta_negative_sampling(batch)
         y_pred = self.model(h.x, h.x_struct, h.edge_attr, h.edge_index)
         y_pred = y_pred.flatten()
-        bce_loss = self.criterion(y_pred, h.y.flatten())
-
-        loss = bce_loss
+        loss = self.criterion(y_pred, h.y.flatten())
         self.log("train_loss", loss, on_step=True, on_epoch=True, prog_bar=False, logger=True)
         return loss
     
@@ -155,11 +153,8 @@ class LitCHLPModel(LightningModule):
         h = alpha_beta_negative_sampling(batch)
         y_pred = self.model(h.x, h.x_struct, h.edge_attr, h.edge_index)
         y_pred = y_pred.flatten()
-        bce_loss = self.criterion(y_pred, h.y.flatten())
-
-        loss = bce_loss
+        loss = self.criterion(y_pred, h.y.flatten())
         self.log("val_loss", loss, on_step=True, on_epoch=True, prog_bar=False, logger=True)
-        
         self.val_preds.append(y_pred.detach().cpu())
         self.val_targets.append(h.y.detach().cpu())
 
@@ -175,22 +170,18 @@ class LitCHLPModel(LightningModule):
         y_true = y_true.numpy()
         y_pred = y_pred.numpy()
         self.log("epoch_val_loss", loss, prog_bar=False, on_epoch=True, logger=True)
-
         self.log("val_roc_auc", roc_auc_score(y_true, y_pred), prog_bar=False, logger=True)
         self.log("val_accuracy", accuracy_score(y_true, (y_pred >= cutoff).astype(int)), prog_bar=False, logger=True)
         self.log("val_precision", precision_score(y_true, (y_pred >= cutoff).astype(int), average='macro'), prog_bar=False, logger=True)
         self.metric(loss)
-        running_val = self.metric.compute()
-        self.log("running_val", running_val, on_epoch=True, logger=True)
+        self.log("running_val", self.metric.compute(), on_epoch=True, logger=True)
         self.val_preds.clear()
         self.val_targets.clear()
 
     
     def test_step(self, batch, batch_idx):
         h = alpha_beta_negative_sampling(batch)
-        y_pred = self.model(h.x, h.x_struct, h.edge_attr, h.edge_index)
-        y_pred = torch.sigmoid(y_pred).flatten()
-
+        y_pred = torch.sigmoid(self.model(h.x, h.x_struct, h.edge_attr, h.edge_index)).flatten()
         self.test_preds.append(y_pred.detach().cpu())
         self.test_targets.append(h.y.detach().cpu())
     
@@ -199,7 +190,6 @@ class LitCHLPModel(LightningModule):
         y_true = torch.cat(self.test_targets).numpy()
 
         cutoff = self.cutoff if self.cutoff is not None else 0.5
-
         roc_auc = roc_auc_score(y_true, y_pred)
         accuracy = accuracy_score(y_true, (y_pred >= cutoff).astype(int))
         precision = precision_score(y_true, (y_pred >= cutoff).astype(int), average='macro')

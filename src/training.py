@@ -42,7 +42,7 @@ def run_training(lightning_model: LitCHLPModel,
                  mode: str,
                  dataset: str,
                  max_epochs: int = 1200,
-                 early_stopping_patience: int = 100,
+                 early_stopping_patience: int = 30,
                  devices: int = 1,
                  accelerator: str = 'gpu'):
     
