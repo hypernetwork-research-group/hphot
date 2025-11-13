@@ -2,7 +2,7 @@
 
 # chmod +x run.sh
 
-EPOCHS=300
+EPOCHS=1
 BATCH_SIZE=128
 NUM_WORKERS=8
 

@@ -29,8 +29,8 @@ def main():
         
     torch.save(model, f'{checkpoint_dir}/{args.mode}.pth')
 
-    if not os.path.exists(f'./results/{args.dataset}'):
-        os.makedirs(f'./results/{args.dataset}')
+    if not os.path.exists(f'./results/{args.dataset}/{args.experiment}/'):
+        os.makedirs(f'./results/{args.dataset}/{args.experiment}/')
 
     # start_testing = time.time()
     run_test_and_save_results(
