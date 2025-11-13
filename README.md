@@ -1,20 +1,5 @@
 <a id="readme-top"></a>
 
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![project_license][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
@@ -28,36 +13,6 @@
     This repository contains datasets and code for the paper Hyperlink Prediction on Hypergraphs of Text. Alessia Antelmi, Tiziano Citro, Dario De Maio, Daniele De Vinco, Valerio Di Pasquale, Mirko Polato, Carmine Spagnuolo.
   </p>
 </div>
-
-
-
-<!-- TABLE OF CONTENTS
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
-</details> -->
-
-
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
@@ -76,6 +31,7 @@ Experimental results demonstrate that integrating semantic information from node
 * [![PyTorch][PyTorch-shield]][PyTorch-url]
 * [![PyTorch Geometric][PyG-shield]][PyG-url]
 * [![PyTorch Lightning][Lightning-shield]][Lightning-url]
+* [![DHG][DHG-shield]][DHG-url]
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -118,21 +74,23 @@ Install dependencies
 
 ```bash
 pip install -r requirements.txt
-(Optional) Configure environment variables
 ```
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+You can run all the experiments, including baselines and ablation studies, using the provided script:
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+```bash
+./run.sh
+```
+This will:
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+* Train and evaluate all baseline models
+* Perform ablation studies on different hypergraph configurations
+* Save the results and logs in the runs/ directory
 
-
-
-<!-- ROADMAP -->
+<!-- ROADMAP
 ## Roadmap
 
 - [ ] Feature 1
@@ -142,12 +100,12 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
 
 
 <!-- CONTRIBUTING -->
-## Contributing
+<!-- ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
@@ -166,7 +124,7 @@ Don't forget to give the project a star! Thanks again!
 
 <a href="https://github.com/github_username/repo_name/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=github_username/repo_name" alt="contrib.rocks image" />
-</a>
+</a> -->
 
 
 
@@ -190,14 +148,14 @@ Project Link: [https://github.com/github_username/repo_name](https://github.com/
 
 
 
-<!-- ACKNOWLEDGMENTS -->
+<!-- ACKNOWLEDGMENTS
 ## Acknowledgments
 
 * []()
 * []()
 * []()
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
 
 
@@ -214,3 +172,6 @@ Project Link: [https://github.com/github_username/repo_name](https://github.com/
 
 [Lightning-shield]: https://img.shields.io/badge/PyTorch%20Lightning-792EE5?style=for-the-badge&logo=lightning&logoColor=white
 [Lightning-url]: https://lightning.ai/pytorch-lightning
+
+[DHG-shield]: https://img.shields.io/badge/DHG%20(IMoonLab)-00B2A9?style=for-the-badge&logo=python&logoColor=white
+[DHG-url]: https://github.com/iMoonLab/DeepHypergraph
